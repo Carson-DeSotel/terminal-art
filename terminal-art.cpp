@@ -1,39 +1,51 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
-int main() {
-  // colors:
-  string RED   = "\033[0;31m";
-  string BLACK = "\033[0;030m";
-  string WHITE = "\033[1;37m";
-  string NONE  = "\033[0m";
+#define FULL_BLOCK "\u2588"
+#define NONE "\033[0m"
 
-  // characters:
-  string full_block = "\u2588";
-  string RB = RED + full_block;
-  string BB = BLACK + full_block;
-  string WB = WHITE + full_block;
+int main(int argc, char* argv[]) {
+  string junk;
+  int width, height;
+  string filename;
 
-  string pixels[][12] = {
-    { " ", " ", " ", " ", BB, BB, BB, BB, " ", " ", " ", " "}, 
-    { " ", " ", BB, BB, RB, RB, RB, RB, BB, BB, " ", " "},
-    { " ", BB, RB, RB, RB, RB, RB, RB, RB, RB, BB, " "},  
-    { " ", BB, RB, RB, RB, RB, RB, RB, RB, RB, BB, " "}, 
-    { BB, RB, RB, RB, RB, RB, RB, RB, RB, RB, RB, BB },
-    { BB, RB, RB, RB, RB, BB, BB, RB, RB, RB, RB, BB },
-    { BB, BB, RB, RB, BB, WB, WB, BB, RB, RB, BB, BB },
-    { BB, WB, BB, BB, BB, WB, WB, BB, BB, BB, WB, BB },
-    { " ", BB, WB, WB, WB, BB, BB, WB, WB, WB, BB, " "},
-    { " ", BB, WB, WB, WB, WB, WB, WB, WB, WB, BB, " "},
-    { " ", " ", BB, BB, WB, WB, WB, WB, BB, BB, " ", " "},
-    { " ", " ", " ", " ", BB, BB, BB, BB, " ", " ", " ", " "}, 
-  };
-
-  for(int i = 0; i < 12; i += 1) {
-    for(int j = 0; j < 12; j += 1) {
-      cout << pixels[i][j] << pixels[i][j];
-    }
-    cout << endl;
+  if(argc < 2){
+    cout << "Please input a filename." << endl;
+    exit(1);
   }
+
+  filename = argv[1];
+
+  ifstream fin;
+  fin.open(filename);
+  if(!fin.is_open()){
+    cout << "Couldn't open your file..." << endl;
+    exit(2);
+  } else {
+    // get static variables
+    fin >> junk >> width >> height >> junk;
+
+    // get colors
+    string image[height][width];
+    for(int row = 0; row < height; row += 1) {
+      for(int col = 0; col < width; col += 1) {
+        string r, g, b;
+        fin >> r >> g >> b;
+        image[row][col] = string("\033[38;2;") + r + ";" + g + ";" + b + "m" + FULL_BLOCK;
+      }
+    }
+
+    // print image
+    for(int row = 0; row < height; row += 1) {
+      for(int col = 0; col < width; col += 1) {
+        // doubled up to be more square
+        cout << image[row][col] << image[row][col];
+      }
+      cout << endl << NONE;
+    }
+  }
+  fin.close();
+  return 0;
 }
