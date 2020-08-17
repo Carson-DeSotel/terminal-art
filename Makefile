@@ -1,4 +1,8 @@
+DEFAULT = pokeball.ppm
+
 all : 
-	g++ *.cpp
+	g++ -o terminal-art *.cpp
+default : terminal-art
+	@./terminal-art ${DEFAULT}
 clean : 
-	rm *.out
+	@rm terminal-art
