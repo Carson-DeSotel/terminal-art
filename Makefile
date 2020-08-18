@@ -1,4 +1,4 @@
-DEFAULT = pokeball.ppm
+DEFAULT = ./images/pokeball.ppm
 
 all : 
 	g++ -o terminal-art *.cpp
