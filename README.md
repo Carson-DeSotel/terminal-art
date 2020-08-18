@@ -26,3 +26,16 @@ Here's a command that should test your terminal for its support of Truecolor enc
 
 [You can read more about Truecolor support and your terminal emulator here.](https://gist.github.com/XVilka/8346728#now-supporting-truecolor)
 
+## Making Images:
+
+A word of caution: this program is not for larger images. I've tried up to 32x32 and that took up most of my screen. I know for a fact that this doesn't work for images of size 512x512, because that has caused a segmentation fault.
+
+I'm using a program called ImageMagick on a *nix machine to produce these images. Here's a template command:
+
+> convert <input_image_name>.<input_image_file_extension> -resize <size1>x<size2> -compress none <output_image_name>.ppm
+
+Replace <input_image_name> and <output_image_name> with those of your choice. And <input_image_file_extension> with the correct extension. Here's an example of what I mean.
+
+> convert minecraft_grass.jpg -resize 16x16 -compress none minecraft_grass.ppm 
+
+This converts the JPG to a 16x16 PPM P3 file. The -compress none ensures that the file is in the correct PPM P3 format. Without that, it converts to a PPM P6 format which is not readable by my program. 
