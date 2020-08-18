@@ -3,13 +3,6 @@
  * @author: Carson DeSotel
  * @created: 2020-08-17
  */
-/* 
- * Exit Codes:
- * 1: no filename
- * 2: error opening file
- * 3: invalid file type
- * 4: too large, performance
- */
 #include <iostream>
 #include <fstream>
 
