@@ -1,3 +1,15 @@
+/** 
+ * Terminal Art 
+ * @author: Carson DeSotel
+ * @created: 2020-08-17
+ */
+/* 
+ * Exit Codes:
+ * 1: no filename
+ * 2: error opening file
+ * 3: invalid file type
+ * 4: too large, performance
+ */
 #include <iostream>
 #include <fstream>
 
@@ -8,6 +20,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
   string junk;
+  string fmt;
   int width, height;
   string filename;
 
@@ -17,6 +30,14 @@ int main(int argc, char* argv[]) {
   }
 
   filename = argv[1];
+  int filename_len = filename.length();
+
+  // check file extension
+  if(filename.substr(filename_len - 4).compare(".ppm") != 0 && 
+     filename.substr(filename_len - 4).compare(".PPM") != 0 ) {
+       cout << "File is not a ppm file..." << endl;
+       exit(3);
+     }
 
   ifstream fin;
   fin.open(filename);
@@ -25,7 +46,20 @@ int main(int argc, char* argv[]) {
     exit(2);
   } else {
     // get static variables
-    fin >> junk >> width >> height >> junk;
+    fin >> fmt;
+
+    // check file format
+    if(fmt.compare("P3") != 0) { 
+      cout << "File is not a ppm P3 file..." << endl;
+      exit(3);
+    } else {
+      fin >> width >> height >> junk;
+    }
+
+    if(width > 64 || height > 64) {
+      cout << "File is too large, will most likely result in Segmentation Fault..." << endl;
+      exit(4);
+    }
 
     // get colors
     string image[height][width];
