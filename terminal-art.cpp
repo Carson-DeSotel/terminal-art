@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define FULL_BLOCK "\u2588"
+#define FULL_BLOCK "\u2588\u2588"
 #define NONE "\033[0m"
 
 int main(int argc, char* argv[]) {
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
     for(int row = 0; row < height; row += 1) {
       for(int col = 0; col < width; col += 1) {
         // doubled up to be more square
-        cout << image[row][col] << image[row][col];
+        cout << image[row][col];
       }
       cout << endl << NONE;
     }
