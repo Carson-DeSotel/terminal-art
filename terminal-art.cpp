@@ -38,14 +38,13 @@ int main(int argc, char* argv[]) {
     cout << "Couldn't open your file..." << endl;
     exit(2);
   } else {
-    // get static variables
-    fin >> fmt;
-
     // check file format
+    fin >> fmt;
     if(fmt.compare("P3") != 0) { 
       cout << "File is not a ppm P3 file..." << endl;
       exit(3);
     } else {
+      // get static variables
       fin >> width >> height >> junk;
     }
 
