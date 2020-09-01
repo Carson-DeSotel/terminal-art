@@ -6,3 +6,4 @@ default : terminal-art
 	@./terminal-art ${DEFAULT}
 clean : 
 	@rm terminal-art
+	@rm *.out

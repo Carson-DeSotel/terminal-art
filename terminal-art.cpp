@@ -59,7 +59,9 @@ int main(int argc, char* argv[]) {
       for(int col = 0; col < width; col += 1) {
         string r, g, b;
         fin >> r >> g >> b;
-        image[row][col] = string("\033[38;2;") + r + ";" + g + ";" + b + "m" + FULL_BLOCK;
+        string BG = string("\033[48;2;") + r + ";" + g + ";" + b + "m";
+        string FG = string("\033[38;2;") + r + ";" + g + ";" + b + "m" + FULL_BLOCK;
+        image[row][col] = BG + FG + NONE;
       }
     }
 
@@ -69,7 +71,7 @@ int main(int argc, char* argv[]) {
         // doubled up to be more square
         cout << image[row][col];
       }
-      cout << endl << NONE;
+      cout << endl;
     }
   }
   fin.close();
