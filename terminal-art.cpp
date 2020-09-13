@@ -5,32 +5,19 @@
  */
 #include <iostream>
 #include <fstream>
+#include "terminal-art.h"
 
 using namespace std;
 
-#define FULL_BLOCK "\u2588\u2588"
-#define NONE "\033[0m"
-
 int main(int argc, char* argv[]) {
-  string junk;
-  string fmt;
-  int width, height;
-  string filename;
+  string junk, fmt, filename;
+  int height, width;
 
-  if(argc < 2){
-    cout << "Please input a filename." << endl;
+  if(!validate_arguments(argc, argv)) {
     exit(1);
+  } else {
+      filename = argv[1];
   }
-
-  filename = argv[1];
-  int filename_len = filename.length();
-
-  // check file extension
-  if(filename.substr(filename_len - 4).compare(".ppm") != 0 && 
-     filename.substr(filename_len - 4).compare(".PPM") != 0 ) {
-       cout << "File is not a ppm file..." << endl;
-       exit(3);
-     }
 
   ifstream fin;
   fin.open(filename);
@@ -48,13 +35,13 @@ int main(int argc, char* argv[]) {
       fin >> width >> height >> junk;
     }
 
-    if(width > 64 || height > 64) {
+    if(height > MAX_HEIGHT || width > MAX_WIDTH) {
       cout << "File is too large, will most likely result in Segmentation Fault..." << endl;
       exit(4);
     }
 
     // get colors
-    string image[height][width];
+    string image[height][MAX_WIDTH];
     for(int row = 0; row < height; row += 1) {
       for(int col = 0; col < width; col += 1) {
         string r, g, b;
@@ -65,14 +52,7 @@ int main(int argc, char* argv[]) {
       }
     }
 
-    // print image
-    for(int row = 0; row < height; row += 1) {
-      for(int col = 0; col < width; col += 1) {
-        // doubled up to be more square
-        cout << image[row][col];
-      }
-      cout << endl;
-    }
+    print_ppm(image, height, width);
   }
   fin.close();
   return 0;
